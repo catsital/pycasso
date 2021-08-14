@@ -31,16 +31,19 @@ class Pycasso:
         return slices
 
     def get_cols_in_group(self, slices):
-        if len(slices)==1:
+        if len(slices) == 1:
             return 1
         t = 'init'
         for i in range(0, len(slices)):
             if t == 'init':
                 t = slices[i]['y']
-            if not t == slices[i]['y']:
+            if t != slices[i]['y']:
                 return i
                 break
-        return i
+        if (self.imgwidth|self.imgheight)%self.total_parts != 0:
+            return i+1
+        else:
+            return i
 
     def get_group(self, slices):
         this = {}
