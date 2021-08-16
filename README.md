@@ -22,7 +22,7 @@ With `unscramble` using the same `seed` and `slice_size` to revert the image to 
 
 [1] Pycasso is a partial port of [image-scramble](https://github.com/webcaetano/image-scramble), a JavaScript/Node.js module for scrambling/unscrambling images, and [shuffle-seed](https://github.com/webcaetano/shuffleseed), likewise a module that shuffles/unshuffles an array with seed, by [Andre Caetano](https://github.com/webcaetano). The original module uses [seedrandom](https://github.com/davidbau/seedrandom) to initialize the PRNG, whilst this version uses a basic implementation of the `random` module from the Python standard library. Needless to say, running the same seed on both versions will result to two distinct output.
 
-[2] Sample image is taken from [Pepper & Carrot]('https://peppercarrot.com/') by David Revoy licensed under [CC BY 4.0]('https://www.peppercarrot.com/en/license/index.html').
+[2] Sample image is taken from [Pepper & Carrot](https://peppercarrot.com/) by David Revoy licensed under [CC BY 4.0](https://www.peppercarrot.com/en/license/index.html).
 
 ## Getting Started
 
