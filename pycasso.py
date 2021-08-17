@@ -2,7 +2,7 @@ import math
 import shuffleseed
 import PIL.Image
 
-class Pycasso:
+class Canvas:
     def __init__(self, img, slice_size, seed, output):
         self.img = PIL.Image.open(img)
         self.slice_size = slice_size
