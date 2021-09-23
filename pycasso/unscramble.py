@@ -1,6 +1,7 @@
 import math
-import shuffleseed
 import PIL.Image
+
+from pycasso.shuffleseed import shuffle, unshuffle
 
 class Canvas:
     def __init__(self, img, slice_size, seed, output):
@@ -8,22 +9,32 @@ class Canvas:
         self.slice_size = slice_size
         self.seed = seed
         self.output = output
-        self.imgwidth, self.imgheight = self.img.size
-        self.total_parts = math.ceil(self.imgwidth/self.slice_size) * math.ceil(self.imgheight/self.slice_size)
-        self.canvas = PIL.Image.new(mode="RGBA", size=(self.imgwidth, self.imgheight), color=(255,255,255))
+        self.canvas = PIL.Image.new(mode="RGBA", size=(self.img_width, self.img_height), color=(255,255,255))
+
+    @property
+    def img_width(self):
+        return self.img.size[0]
+
+    @property
+    def img_height(self):
+        return self.img.size[1]
+
+    @property
+    def total_parts(self):
+        return math.ceil(self.img_width/self.slice_size) * math.ceil(self.img_height/self.slice_size)
 
     def get_slices(self):
         slices = {}
-        vertical_slices = math.ceil(self.imgwidth/self.slice_size)
-        horizontal_slices = self.imgheight/self.slice_size
+        vertical_slices = math.ceil(self.img_width/self.slice_size)
+        horizontal_slices = self.img_height/self.slice_size
         for i in range(0, self.total_parts):
             slice = {}
             row = int(i/vertical_slices)
             col = i-row*vertical_slices
             slice['x'] = col*self.slice_size
             slice['y'] = row*self.slice_size
-            slice['width'] = (self.slice_size-(0 if slice['x']+self.slice_size<=self.imgwidth else (slice['x']+self.slice_size)-self.imgwidth))
-            slice['height'] = (self.slice_size-(0 if slice['y']+self.slice_size<=self.imgheight else (slice['y']+self.slice_size)-self.imgheight))
+            slice['width'] = (self.slice_size-(0 if slice['x']+self.slice_size<=self.img_width else (slice['x']+self.slice_size)-self.img_width))
+            slice['height'] = (self.slice_size-(0 if slice['y']+self.slice_size<=self.img_height else (slice['y']+self.slice_size)-self.img_height))
             if str(slice['width'])+"-"+str(slice['height']) not in slices.keys():
                 slices[str(slice['width'])+"-"+str(slice['height'])] = []
             slices[str(slice['width'])+"-"+str(slice['height'])].append(slice)
@@ -40,7 +51,7 @@ class Canvas:
             if t != slices[i]['y']:
                 return i
                 break
-        if (self.imgwidth|self.imgheight)%self.total_parts != 0:
+        if (self.img_height%self.total_parts) != 0:
             return i+1
         else:
             return i
@@ -56,6 +67,7 @@ class Canvas:
         this['y'] = slices[0]['y']
         return this
 
+
     def export(self, mode='scramble'):
         slices = self.get_slices()
 
@@ -65,9 +77,9 @@ class Canvas:
             for i in range(0, len(slices[g])):
                 shuffle_ind.append(i)
             if mode == 'unscramble':
-                shuffle_ind = shuffleseed.unshuffle(shuffle_ind, self.seed)
+                shuffle_ind = unshuffle(shuffle_ind, self.seed)
             if mode == 'scramble':
-                shuffle_ind = shuffleseed.shuffle(shuffle_ind, self.seed)
+                shuffle_ind = shuffle(shuffle_ind, self.seed)
 
             for i in range(0, len(slices[g])):
                 s = shuffle_ind[i]
@@ -86,4 +98,4 @@ class Canvas:
                                               slices[g][i]['x']+slices[g][i]['width'],
                                               slices[g][i]['y']+slices[g][i]['height']))
 
-        self.canvas.save(self.output + ".png")
+        self.canvas.save("{}.png".format(self.output))
