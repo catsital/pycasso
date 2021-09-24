@@ -51,10 +51,7 @@ class Canvas:
             if t != slices[i]['y']:
                 return i
                 break
-        if (self.img_height%self.total_parts) != 0:
-            return i+1
-        else:
-            return i
+        return i if (self.img_height%self.slice_size) == 0 else i+1
 
     def get_group(self, slices):
         this = {}
@@ -66,7 +63,6 @@ class Canvas:
         this['x'] = slices[0]['x']
         this['y'] = slices[0]['y']
         return this
-
 
     def export(self, mode='scramble'):
         slices = self.get_slices()
