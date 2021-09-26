@@ -15,7 +15,7 @@ class ARC4:
         j = 0
 
         for i in range(0, width):
-            s.append(i + 1)
+            s.append(i)
 
         for i in range(0, width):
             t = s[i]
