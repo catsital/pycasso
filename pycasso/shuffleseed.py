@@ -1,16 +1,12 @@
 import math
-import random
 
-def seedrandom(seed):
-    random.seed(seed)
-    seed = random.random()
-    return seed
+from pycasso.prng import seedrandom
 
 def isarray(this):
     return type(this) is list
 
 def seedrand(seed, min, max):
-    return math.floor(seed * (max - min + 1)) + min
+    return math.floor(seed() * (max - min + 1)) + min
 
 def shuffle(arr, seed=None):
     if not isarray(arr):
@@ -27,7 +23,7 @@ def shuffle(arr, seed=None):
     for i in range(0, size):
         r = seedrand(rng, 0, len(keys)-1)
         g = keys[r]
-        splice(keys, r, 1) # keys.insert(r, keys.pop())
+        splice(keys, r, 1)
         resp.append(arr[g])
 
     return resp
