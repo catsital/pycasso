@@ -2,17 +2,17 @@ import math
 
 from pycasso.prng import seedrandom
 
-def isarray(this):
+def islist(this):
     return type(this) is list
 
 def seedrand(seed, min, max):
     return math.floor(seed() * (max - min + 1)) + min
 
-def shuffle(arr, seed=None):
-    if not isarray(arr):
+def shuffle(list, seed=None):
+    if not islist(list):
         return None
 
-    size = len(arr)
+    size = len(list)
     rng = seedrandom(seed)
     resp = []
     keys = []
@@ -24,15 +24,15 @@ def shuffle(arr, seed=None):
         r = seedrand(rng, 0, len(keys)-1)
         g = keys[r]
         splice(keys, r, 1)
-        resp.append(arr[g])
+        resp.append(list[g])
 
     return resp
 
-def unshuffle(arr, seed=None):
-    if not isarray(arr):
+def unshuffle(list, seed=None):
+    if not islist(list):
         return None
 
-    size = len(arr)
+    size = len(list)
     rng = seedrandom(seed)
     resp = []
     map = []
@@ -46,7 +46,7 @@ def unshuffle(arr, seed=None):
         r = seedrand(rng, 0, len(keys)-1)
         g = keys[r]
         splice(keys, r, 1)
-        resp[g] = arr[i]
+        resp[g] = list[i]
 
     return resp
 
