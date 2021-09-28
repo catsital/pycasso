@@ -1,6 +1,6 @@
 # Pycasso
 
-Image obfuscator with seed [1] using `Pillow` and `random`.
+Image obfuscator with seed. [1]
 
 ## Example
 
@@ -30,9 +30,13 @@ With `unscramble` using the same `seed` and `slice_size` to revert the image to 
 * Python 3.8+
 
 ### Setup
-* First, you should get a copy of this project in your local machine by either downloading the zip file or cloning the repository. `git clone https://github.com/catsital/pycasso.git`
+*  First, you should get a copy of this project in your local machine by either downloading the zip file or cloning the repository. `git clone https://github.com/catsital/pycasso.git`
 * `cd` into `pycasso` directory.
-* Run `pip install -r requirements.txt` to install dependencies.
+* Run `python setup.py install` to install package.
+
+#### Install from development
+Install directly from the development source with pip by `python -m pip install git+https://github.com/catsital/pycasso@develop`
+
 
 ## Usage
 
@@ -49,7 +53,7 @@ canvas.export(mode='scramble')
 
 Or a plain one-liner:
 ```python
-pycasso.Canvas('image_input.png', 50, 'seed', 'image_output').export('scramble')
+pycasso.Canvas('image_input.png', 50, 'seed', 'image_output').export()
 ```
 
 Simply use `requests` to open images from web.
