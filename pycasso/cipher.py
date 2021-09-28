@@ -4,24 +4,27 @@ class ARC4:
     def __init__(self, key):
         self.key = key
 
-        global keylen, i, j, s
+        global keylen, u, t, i, j, s
         keylen = len(self.key)
+        u = None
+        t = None
         i = 0
         j = self.i = self.j = 0
         s = self.S = []
 
     def main(self):
-        t = None
-        j = 0
+        global i, j
 
-        for i in range(0, width):
+        while i < width:
             s.append(i)
+            i += 1
 
-        for i in range(0, width):
+        for i in range(width):
             t = s[i]
             j = mask & (j + self.key[i % keylen] + t)
-            s[i] = j
-            s[j] = t
+            u = s[j]
+            s[i] = u # s[i] = j
+            s[j] = t # s[j] = t
 
         self.g(width)
 
@@ -38,8 +41,7 @@ class ARC4:
             j = mask & (j + t)
             s[i] = s[j]
             s[j] = t
-            e = mask & (s[i] + s[j])
-            r = r * width + s[e]
+            r = r * width + s[mask & (s[i] + s[j])]
             count -= 1
 
         self.i = i
