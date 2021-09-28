@@ -5,9 +5,9 @@ def seedrandom(seed):
     key = []
     shortseed = mixkey(seed, key)
     arc4 = ARC4(shortseed)
+    arc4.main()
 
     def prng():
-        arc4.main()
         n = arc4.g(chunks)
         d = startdenom
         x = 0
@@ -20,15 +20,13 @@ def seedrandom(seed):
         while n >= overflow:
             n /= 2
             d /= 2
-            x = rshift(x, 1)
+            x = x >> 1
 
         o = (n + x) / d
 
         return o
 
     return prng
-
-def rshift(val, n): return (val % 0x100000000) >> n
 
 def mixkey(seed, key):
     stringseed = seed + ''
