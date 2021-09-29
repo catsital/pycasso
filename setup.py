@@ -7,7 +7,7 @@ requirements = ["Pillow>=7.2.0"]
 
 setup(
     name="pycasso",
-    version="0.1.1",
+    version="1.0.0",
     author="catsital",
     author_email="catshital@gmail.com",
     description="Split image into tiles and scramble/unscramble it with seed.",
