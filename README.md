@@ -4,7 +4,7 @@ Image obfuscator with seed. [1]
 
 ## Example
 
-![example_scramble](./examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_scramble.png)
+![example_scramble](./examples/v1.0.0/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_v1.0.0-prng.png)
 
 Using this image [2] with `scramble` mode on `export`:
 
@@ -16,11 +16,13 @@ seed = 'Pycasso'
 
 With `unscramble` using the same `seed` and `slice_size` to revert the image to its unscrambled state:
 
-![example_unscramble](./examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_unscramble.png)
+![example_unscramble](./examples/v1.0.0/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_v1.0.0-prng-unscramble.png)
 
 ## References
 
-[1] Pycasso is a partial port of [image-scramble](https://github.com/webcaetano/image-scramble), a JavaScript/Node.js module for scrambling/unscrambling images, and [shuffle-seed](https://github.com/webcaetano/shuffleseed), likewise a module that shuffles/unshuffles an array with seed, by [Andre Caetano](https://github.com/webcaetano). The original module uses [seedrandom](https://github.com/davidbau/seedrandom) to initialize the PRNG, whilst this version uses a basic implementation of the `random` module from the Python standard library. Needless to say, running the same seed on both versions will result to two distinct output.
+[1] Pycasso is a Python port of [image-scramble](https://github.com/webcaetano/image-scramble), a JavaScript/Node.js module for scrambling/unscrambling images, and [shuffle-seed](https://github.com/webcaetano/shuffleseed), likewise a module that shuffles/unshuffles an array with seed, by Andre Caetano. `v1.0.0` uses a stripped down port of [seedrandom](https://github.com/davidbau/seedrandom) to initialize the PRNG (as it was in the original module). Running the same seed on both Python and JavaScript will now produce the same image output.
+
+`v0.1.1` uses a basic implementation of the random module from the Python standard library for the PRNG. Needless to say, this release produces a different result from the JavaScript module.
 
 [2] Sample image is taken from [Pepper & Carrot](https://peppercarrot.com/) by David Revoy licensed under [CC BY 4.0](https://www.peppercarrot.com/en/license/index.html).
 
@@ -32,7 +34,7 @@ With `unscramble` using the same `seed` and `slice_size` to revert the image to 
 ### Setup
 *  First, you should get a copy of this project in your local machine by either downloading the zip file or cloning the repository. `git clone https://github.com/catsital/pycasso.git`
 * `cd` into `pycasso` directory.
-* Run `python setup.py install` to install package.
+* Run `python setup.py install --user` to install package.
 
 #### Install from development
 Install directly from the development source with pip by `python -m pip install git+https://github.com/catsital/pycasso@develop`
