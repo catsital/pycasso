@@ -1,3 +1,5 @@
+from time import time
+
 from pycasso.constants import width, chunks, startdenom, significance, overflow, mask
 from pycasso.cipher import ARC4
 
@@ -29,6 +31,9 @@ def seedrandom(seed):
     return prng
 
 def mixkey(seed, key):
+    if not seed:
+        seed = time()
+
     for j in range(0, len(str(seed))):
         key.insert(mask & j, ord(str(seed)[j]))
 
