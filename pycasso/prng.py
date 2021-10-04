@@ -29,9 +29,7 @@ def seedrandom(seed):
     return prng
 
 def mixkey(seed, key):
-    stringseed = seed + ''
-
-    for j in range(0, len(stringseed)):
-        key.insert(mask & j, ord(stringseed[j]))
+    for j in range(0, len(str(seed))):
+        key.insert(mask & j, ord(str(seed)[j]))
 
     return key
