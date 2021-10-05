@@ -1,12 +1,14 @@
 # Pycasso
 
-Image obfuscator with seed. [1]
+Image obfuscation tool with seed.
 
 ## Example
 
+Using scramble mode on `export` will produce this image:
+
 ![example_scramble](./examples/v1.0.0/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_v1.0.0-prng.png)
 
-Using this image [2] with `scramble` mode on `export`:
+Using the same `seed` and `slice_size` to revert the image to its unscrambled state on unscramble mode:
 
 ```python
 img = 'examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_pycasso.png'
@@ -14,17 +16,13 @@ slice_size = 30
 seed = 'Pycasso'
 ```
 
-With `unscramble` using the same `seed` and `slice_size` to revert the image to its unscrambled state:
-
 ![example_unscramble](./examples/v1.0.0/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_v1.0.0-prng-unscramble.png)
 
-## References
+## Credits
 
-[1] Pycasso is a Python port of [image-scramble](https://github.com/webcaetano/image-scramble), a JavaScript/Node.js module for scrambling/unscrambling images, and [shuffle-seed](https://github.com/webcaetano/shuffleseed), likewise a module that shuffles/unshuffles an array with seed, by Andre Caetano. `v1.0.0` uses a stripped down port of [seedrandom](https://github.com/davidbau/seedrandom) to initialize the PRNG (as it was in the original module). Running the same seed on both Python and JavaScript will now produce the same image output.
+* Pycasso is a port of [webcaetano/image-scramble](https://github.com/webcaetano/image-scramble) and [webcaetano/shuffle-seed](https://github.com/webcaetano/shuffleseed).
 
-`v0.1.1` uses a basic implementation of the random module from the Python standard library for the PRNG. Needless to say, this release produces a different result from the JavaScript module.
-
-[2] Sample image is taken from [Pepper & Carrot](https://peppercarrot.com/) by David Revoy licensed under [CC BY 4.0](https://www.peppercarrot.com/en/license/index.html).
+* Sample image is taken from [Pepper & Carrot](https://peppercarrot.com/) by David Revoy licensed under [CC BY 4.0](https://www.peppercarrot.com/en/license/index.html).
 
 ## Getting Started
 
@@ -42,27 +40,27 @@ Install directly from the development source with pip by `python -m pip install 
 
 ## Usage
 
-Initialize a `Canvas` and use `scramble` on `export` by:
+After installing, simply use:
+
+```bash
+$ pycasso IMAGE.png scramble
+```
+
+To use this in a script, initialize a `Canvas` and use scramble on `export` by:
 
 ```python
 import pycasso
 img = 'image_input.png'
 slice_size = 50
 seed = 'seed'
-canvas = pycasso.Canvas(img, slice_size, seed, 'image_output')
-canvas.export(mode='scramble')
+canvas = pycasso.Canvas(img, slice_size, seed)
+canvas.export(mode='scramble', path='image_output.png')
 ```
 
-Or a plain one-liner:
-```python
-pycasso.Canvas('image_input.png', 50, 'seed', 'image_output').export()
-```
-
-Simply use `requests` to open images from web.
+This also works as a one-liner:
 
 ```python
-import requests
-img = requests.open('image_url', stream=True).raw
+pycasso.Canvas('image_input.png', 50, 'seed').export('scramble', 'image_output.png')
 ```
 
 ## Params
@@ -77,7 +75,7 @@ img = requests.open('image_url', stream=True).raw
 * Seed to shuffle in same sequence
 
 **output**
-* Output file name
+* Output file name and format
 
 ## Modes
 
@@ -88,6 +86,17 @@ img = requests.open('image_url', stream=True).raw
 * Reverts the image to its original form given the same seed
 
 *Modes can be used interchangeably and conversely perform their original functions. (i.e. If you use unscramble to scramble an image, it will scramble the image. Consequently you should use scramble to unscramble the image to its original form.)*
+
+## Changelog
+
+**v1.1.0**
+* Add a command-line interface, fix minor issues on seeding.
+
+**v1.0.0**
+* Create a stripped-down port of [davidbau/seedrandom](https://github.com/davidbau/seedrandom) to initialize the PRNG (as it was in the original module). Using the same seed produces the same image output in JavaScript.
+
+**v0.1.1**
+* Initial release. Use a basic implementation of the random module from the standard library to start the PRNG.
 
 ## License
 
