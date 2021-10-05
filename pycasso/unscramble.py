@@ -1,15 +1,25 @@
+import os
+import re
 import math
-import PIL.Image
+import logging
+from PIL import Image
 
 from pycasso.shuffleseed import shuffle, unshuffle
 
+log = logging.getLogger(__name__)
+
 class Canvas:
-    def __init__(self, img, slice_size, seed, output):
-        self.img = PIL.Image.open(img)
-        self.slice_size = slice_size
+    def __init__(self, img, slice_size, seed=None):
+        self.img = Image.open(img)
+        self.slice_size = abs(slice_size)
         self.seed = seed
-        self.output = output
-        self.canvas = PIL.Image.new(mode="RGBA", size=(self.img_width, self.img_height), color=(255,255,255))
+        self.canvas = Image.new(mode="RGBA",
+                                size=(self.img_width, self.img_height),
+                                color=(255,255,255))
+
+        if slice_size == 0:
+            log.error("Invalid slice size specified: input must be greater than or equal to one.")
+            raise SystemExit
 
     @property
     def img_width(self):
@@ -20,24 +30,28 @@ class Canvas:
         return self.img.size[1]
 
     @property
+    def img_filename(self):
+        return self.get_basename(self.img.filename)
+
+    @property
     def total_parts(self):
-        return math.ceil(self.img_width/self.slice_size) * math.ceil(self.img_height/self.slice_size)
+        return math.ceil(self.img_width / self.slice_size) * math.ceil(self.img_height / self.slice_size)
 
     def get_slices(self):
         slices = {}
-        vertical_slices = math.ceil(self.img_width/self.slice_size)
-        horizontal_slices = self.img_height/self.slice_size
+        vertical_slices = math.ceil(self.img_width / self.slice_size)
+        horizontal_slices = self.img_height / self.slice_size
         for i in range(0, self.total_parts):
             slice = {}
-            row = int(i/vertical_slices)
-            col = i-row*vertical_slices
-            slice['x'] = col*self.slice_size
-            slice['y'] = row*self.slice_size
-            slice['width'] = (self.slice_size-(0 if slice['x']+self.slice_size<=self.img_width else (slice['x']+self.slice_size)-self.img_width))
-            slice['height'] = (self.slice_size-(0 if slice['y']+self.slice_size<=self.img_height else (slice['y']+self.slice_size)-self.img_height))
-            if str(slice['width'])+"-"+str(slice['height']) not in slices.keys():
-                slices[str(slice['width'])+"-"+str(slice['height'])] = []
-            slices[str(slice['width'])+"-"+str(slice['height'])].append(slice)
+            row = int(i / vertical_slices)
+            col = i - row * vertical_slices
+            slice['x'] = col * self.slice_size
+            slice['y'] = row * self.slice_size
+            slice['width'] = (self.slice_size - (0 if slice['x'] + self.slice_size <= self.img_width else (slice['x'] + self.slice_size) - self.img_width))
+            slice['height'] = (self.slice_size - (0 if slice['y'] + self.slice_size <= self.img_height else (slice['y'] + self.slice_size) - self.img_height))
+            if '{0}-{1}'.format(slice['width'], slice['height']) not in slices.keys():
+                slices['{0}-{1}'.format(slice['width'], slice['height'])] = []
+            slices['{0}-{1}'.format(slice['width'], slice['height'])].append(slice)
 
         return slices
 
@@ -51,47 +65,80 @@ class Canvas:
             if t != slices[i]['y']:
                 return i
                 break
-        return i if (self.img_height%self.slice_size) == 0 else i+1
+        return i if (self.img_height % self.slice_size) == 0 else i + 1
 
     def get_group(self, slices):
         this = {}
         this['slices'] = len(slices)
         this['cols'] = self.get_cols_in_group(slices)
-        this['rows'] = len(slices)/this['cols']
-        this['width'] = slices[0]['width']*this['cols']
-        this['height'] = slices[0]['height']*this['rows']
+        this['rows'] = len(slices) / this['cols']
+        this['width'] = slices[0]['width'] * this['cols']
+        this['height'] = slices[0]['height'] * this['rows']
         this['x'] = slices[0]['x']
         this['y'] = slices[0]['y']
         return this
 
-    def export(self, mode='scramble'):
-        slices = self.get_slices()
+    @staticmethod
+    def get_basename(filename):
+        return os.path.basename(filename)
 
-        for g in slices:
-            group = self.get_group(slices[g])
-            shuffle_ind = []
-            for i in range(0, len(slices[g])):
-                shuffle_ind.append(i)
-            if mode == 'unscramble':
-                shuffle_ind = unshuffle(shuffle_ind, self.seed)
-            if mode == 'scramble':
-                shuffle_ind = shuffle(shuffle_ind, self.seed)
+    @staticmethod
+    def set_stdname(filename):
+        pattern = re.compile(r'[?"|:<>*]', flags=re.VERBOSE)
+        return pattern.sub("", str(filename))
 
-            for i in range(0, len(slices[g])):
-                s = shuffle_ind[i]
-                row = int(s/group['cols'])
-                col = s-row*group['cols']
-                x = col*slices[g][i]['width']
-                y = row*slices[g][i]['height']
+    def set_directory(self, path):
+        filename = f"pycasso-{self.img_filename}"
+        if path:
+            if not os.path.isabs(path):
+                path = os.path.join(os.getcwd(), path)
+        else:
+            path = os.path.join(os.getcwd(), filename)
 
-                tiles = self.img.crop(box=(group['x']+x,
-                                           group['y']+y,
-                                           group['x']+x+slices[g][i]['width'],
-                                           group['y']+y+slices[g][i]['height']))
+        if path.endswith('/'):
+            path = os.path.join(path, filename)
 
-                self.canvas.paste(tiles, box=(slices[g][i]['x'],
-                                              slices[g][i]['y'],
-                                              slices[g][i]['x']+slices[g][i]['width'],
-                                              slices[g][i]['y']+slices[g][i]['height']))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        return path
 
-        self.canvas.save("{}.png".format(self.output))
+    def export(self, mode='scramble', path=None):
+        try:
+            path = self.set_stdname(path)
+            slices = self.get_slices()
+
+            for g in slices:
+                group = self.get_group(slices[g])
+                shuffle_ind = []
+                for i in range(0, len(slices[g])):
+                    shuffle_ind.append(i)
+                if mode == 'unscramble':
+                    shuffle_ind = unshuffle(shuffle_ind, self.seed)
+                if mode == 'scramble':
+                    shuffle_ind = shuffle(shuffle_ind, self.seed)
+
+                for i in range(0, len(slices[g])):
+                    s = shuffle_ind[i]
+                    row = int(s / group['cols'])
+                    col = s - row * group['cols']
+                    x = col * slices[g][i]['width']
+                    y = row * slices[g][i]['height']
+
+                    tiles = self.img.crop(box=(group['x'] + x,
+                                               group['y'] + y,
+                                               group['x'] + x + slices[g][i]['width'],
+                                               group['y'] + y + slices[g][i]['height']))
+
+                    self.canvas.paste(tiles, box=(slices[g][i]['x'],
+                                                  slices[g][i]['y'],
+                                                  slices[g][i]['x'] + slices[g][i]['width'],
+                                                  slices[g][i]['y'] + slices[g][i]['height']))
+
+            filename = self.set_directory(path)
+
+            if filename.endswith(".jpeg") or filename.endswith(".jpg"):
+                self.canvas = self.canvas.convert("RGB")
+
+            self.canvas.save(filename)
+
+        except ValueError as error:
+            log.error("Error encountered - {}".format(error))
