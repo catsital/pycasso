@@ -91,7 +91,7 @@ class Canvas:
         filename = f"pycasso-{self.img_filename}"
         if path:
             if not os.path.isabs(path):
-                path = os.path.join(os.getcwd(), path)
+                path = os.path.join(os.getcwd(), self.set_stdname(path))
         else:
             path = os.path.join(os.getcwd(), filename)
 
@@ -103,7 +103,6 @@ class Canvas:
 
     def export(self, mode='scramble', path=None):
         try:
-            path = self.set_stdname(path)
             slices = self.get_slices()
 
             for g in slices:
@@ -133,12 +132,10 @@ class Canvas:
                                                   slices[g][i]['x'] + slices[g][i]['width'],
                                                   slices[g][i]['y'] + slices[g][i]['height']))
 
-            filename = self.set_directory(path)
-
-            if filename.endswith(".jpeg") or filename.endswith(".jpg"):
+            if path.endswith(".jpeg") or path.endswith(".jpg"):
                 self.canvas = self.canvas.convert("RGB")
 
-            self.canvas.save(filename)
+            self.canvas.save(self.set_directory(path) if not os.path.exists else path)
 
         except ValueError as error:
             log.error("Error encountered - {}".format(error))
