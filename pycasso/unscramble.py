@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import re
 import math
@@ -135,7 +137,10 @@ class Canvas:
             if path.endswith(".jpeg") or path.endswith(".jpg"):
                 self.canvas = self.canvas.convert("RGB")
 
-            self.canvas.save(self.set_directory(path) if not os.path.exists else path)
+            self.canvas.save(self.set_directory(path) if not os.path.exists(path) else path)
 
         except ValueError as error:
             log.error("Error encountered - {}".format(error))
+
+    def close(self):
+        self.img.close()

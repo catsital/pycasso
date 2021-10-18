@@ -4,11 +4,15 @@ Image obfuscation tool with seed.
 
 ## Example
 
-Using scramble mode on `export` will produce this image:
+### Scramble
+
+Using scramble mode on `export` on [this sample image](./examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2.png) will produce the following output:
 
 ![example_scramble](./examples/v1.0.0/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_v1.0.0-prng.png)
 
-Using the same `seed` and `slice_size` to revert the image to its unscrambled state on unscramble mode:
+### Unscramble
+
+To revert the image to its original state, use the same `seed` and `slice_size` on unscramble mode:
 
 ```python
 img = 'examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_pycasso.png'
@@ -20,7 +24,7 @@ seed = 'Pycasso'
 
 ## Credits
 
-* Pycasso is a port of [webcaetano/image-scramble](https://github.com/webcaetano/image-scramble) and [webcaetano/shuffle-seed](https://github.com/webcaetano/shuffleseed).
+* Pycasso is a Python version of [webcaetano/image-scramble](https://github.com/webcaetano/image-scramble) and [webcaetano/shuffle-seed](https://github.com/webcaetano/shuffle-seed). This also uses a stripped-down port of [davidbau/seedrandom](https://github.com/davidbau/seedrandom). Hence, this module now replicates the same output from the original JS module, in contrast with the first release where the random module from the Python standard library was used to initialize the PRNG.
 
 * Sample image is taken from [Pepper & Carrot](https://peppercarrot.com/) by David Revoy licensed under [CC BY 4.0](https://www.peppercarrot.com/en/license/index.html).
 
@@ -32,7 +36,7 @@ seed = 'Pycasso'
 ### Setup
 *  First, you should get a copy of this project in your local machine by either downloading the zip file or cloning the repository. `git clone https://github.com/catsital/pycasso.git`
 * `cd` into `pycasso` directory.
-* Run `python setup.py install --user` to install package.
+* Run `python setup.py install` to install package.
 
 #### Install from development
 Install directly from the development source with pip by `python -m pip install git+https://github.com/catsital/pycasso@develop`
@@ -40,27 +44,32 @@ Install directly from the development source with pip by `python -m pip install 
 
 ## Usage
 
-After installing, simply use:
+After installing, you can get started by using the command-line utility to scramble or unscramble an image by:
 
 ```bash
-$ pycasso IMAGE.png scramble
+$ pycasso image_input.png scramble
+```
+This will produce a scrambled image with seed based on your current system time. Hence, the output will be completely unpredictable and irreversible. Use the options `-n` for `slice_size` and `-s` for `seed` to fine-tune your desired output, like so:
+
+```bash
+$ pycasso image_input.png scramble -n 50 -s seed -o image_output.png
 ```
 
 To use this in a script, initialize a `Canvas` and use scramble on `export` by:
 
 ```python
-import pycasso
+from pycasso import Canvas
 img = 'image_input.png'
 slice_size = 50
 seed = 'seed'
-canvas = pycasso.Canvas(img, slice_size, seed)
-canvas.export(mode='scramble', path='image_output.png')
+pycasso = Canvas(img, slice_size, seed)
+pycasso.export(mode='scramble', path='image_output.png')
 ```
 
-This also works as a one-liner:
+This can be also achieved in a one-liner:
 
 ```python
-pycasso.Canvas('image_input.png', 50, 'seed').export('scramble', 'image_output.png')
+Canvas('image_input.png', 50, 'seed').export('scramble', 'image_output.png')
 ```
 
 ## Params
@@ -86,17 +95,6 @@ pycasso.Canvas('image_input.png', 50, 'seed').export('scramble', 'image_output.p
 * Reverts the image to its original form given the same seed
 
 *Modes can be used interchangeably and conversely perform their original functions. (i.e. If you use unscramble to scramble an image, it will scramble the image. Consequently you should use scramble to unscramble the image to its original form.)*
-
-## Changelog
-
-**v1.1.0**
-* Add a command-line interface, fix minor issues on seeding.
-
-**v1.0.0**
-* Create a stripped-down port of [davidbau/seedrandom](https://github.com/davidbau/seedrandom) to initialize the PRNG (as it was in the original module). Using the same seed produces the same image output in JavaScript.
-
-**v0.1.1**
-* Initial release. Use a basic implementation of the random module from the standard library to start the PRNG.
 
 ## License
 

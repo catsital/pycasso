@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 import logging
 
@@ -8,6 +10,12 @@ log = logging.getLogger("pycasso.cli")
 def main():
     parser = construct_parser()
     args = parser.parse_args()
+    if not args.mode:
+        log.error(
+            "No mode specified: you need to specify the "
+            "mode to scramble or unscramble an image."
+        )
+        raise SystemExit    
     if not args.seed:
         log.warning(
             "No seed specified: this will automatically use "
@@ -15,7 +23,7 @@ def main():
         )
     if not args.output:
         log.warning(
-            "No path found: appending base file name to current "
+            "No output found: appending base file name to current "
             "working directory."
         )
     if args.output.endswith('/'):
@@ -23,12 +31,6 @@ def main():
             "No file name found: appending base file name to "
             "specified directory."
         )
-    if not args.mode:
-        log.error(
-            "No mode specified: you need to specify the "
-            "mode to scramble or unscramble an image."
-        )
-        raise SystemExit
     img = Canvas(
         args.image,
         slice_size=args.num,
@@ -42,7 +44,7 @@ def main():
 def construct_parser():
     parser = argparse.ArgumentParser(
         prog="pycasso",
-        description="Scramble and unscramble an image into tiles.",
+        description="Split image into tiles and scramble/unscramble it with seed",
         epilog="Report bugs and make feature requests at "
                "https://github.com/catsital/pycasso/issues",
         add_help=False,
