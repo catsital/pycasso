@@ -26,7 +26,7 @@ extra_requirements = {
 }
 
 setup(
-    name="pycasso",
+    name="image-scramble",
     version="1.1.1",
     author="catsital",
     author_email="catshital@gmail.com",

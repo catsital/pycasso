@@ -72,12 +72,39 @@ class TestGroup(unittest.TestCase):
         self.assertEqual(self.slices, slice)
 
     def test_get_group(self):
-        for i in self.slices:
-            group = self.canvas.get_group(self.slices[i])
+        group = [self.canvas.get_group(self.slices[i]) for i in self.slices]
 
         self.assertEqual(
             group,
-            {
+            [
+              {
+                "slices": 100,
+                "cols": 10,
+                "rows": 10.0,
+                "width": 500,
+                "height": 500.0,
+                "x": 0,
+                "y": 0
+              },
+              {
+                "slices": 10,
+                "cols": 1,
+                "rows": 10.0,
+                "width": 40,
+                "height": 500.0,
+                "x": 500,
+                "y": 0
+              },
+              {
+                "slices": 10,
+                "cols": 10,
+                "rows": 1.0,
+                "width": 500,
+                "height": 8.0,
+                "x": 0,
+                "y": 500
+              },
+              {
                 "slices": 1,
                 "cols": 1,
                 "rows": 1.0,
@@ -85,14 +112,14 @@ class TestGroup(unittest.TestCase):
                 "height": 8.0,
                 "x": 500,
                 "y": 500
-            }
+              }
+            ]
         )
 
     def test_get_cols_in_group(self):
-        for i in self.slices:
-            cols = self.canvas.get_cols_in_group(self.slices[i])
+        cols = [self.canvas.get_cols_in_group(self.slices[i]) for i in self.slices]
 
-        self.assertEqual(cols, 1)
+        self.assertEqual(cols, [10, 1, 10, 1])
 
 if __name__ == '__main__':
     unittest.main()
