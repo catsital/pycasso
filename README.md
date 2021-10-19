@@ -24,7 +24,7 @@ seed = 'Pycasso'
 
 ## Credits
 
-* Pycasso is a Python version of [webcaetano/image-scramble](https://github.com/webcaetano/image-scramble) and [webcaetano/shuffle-seed](https://github.com/webcaetano/shuffle-seed). This also uses a stripped-down port of [davidbau/seedrandom](https://github.com/davidbau/seedrandom). Hence, this module now replicates the same output from the original JS module, in contrast with the first release where the random module from the Python standard library was used to initialize the PRNG.
+* Pycasso is a Python version of [webcaetano/image-scramble](https://github.com/webcaetano/image-scramble) and [webcaetano/shuffle-seed](https://github.com/webcaetano/shuffle-seed). This also uses a stripped-down port of [davidbau/seedrandom](https://github.com/davidbau/seedrandom). Hence, this module now replicates the same output as the original JS module, in contrast with the first release where the random module from the Python standard library was used to initialize the PRNG.
 
 * Sample image is taken from [Pepper & Carrot](https://peppercarrot.com/) by David Revoy licensed under [CC BY 4.0](https://www.peppercarrot.com/en/license/index.html).
 
@@ -34,13 +34,18 @@ seed = 'Pycasso'
 * Python 3.8+
 
 ### Setup
+
+#### Install from PyPI
+
+```bash
+$ pip install image-scramble
+```
+
+#### Install from source
+
 *  First, you should get a copy of this project in your local machine by either downloading the zip file or cloning the repository. `git clone https://github.com/catsital/pycasso.git`
 * `cd` into `pycasso` directory.
 * Run `python setup.py install` to install package.
-
-#### Install from development
-Install directly from the development source with pip by `python -m pip install git+https://github.com/catsital/pycasso@develop`
-
 
 ## Usage
 
