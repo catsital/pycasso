@@ -5,8 +5,8 @@ from pycasso.prng import seedrandom
 def islist(this):
     return type(this) is list
 
-def seedrand(seed, min, max):
-    return math.floor(seed() * (max - min + 1)) + min
+def seedrand(func, min, max):
+    return math.floor(func() * (max - min + 1)) + min
 
 def shuffle(list, seed=None):
     if not islist(list):
@@ -35,7 +35,6 @@ def unshuffle(list, seed=None):
     size = len(list)
     rng = seedrandom(seed)
     resp = []
-    map = []
     keys = []
 
     for i in range(0, size):

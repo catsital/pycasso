@@ -15,7 +15,7 @@ def main():
             "No mode specified: you need to specify the "
             "mode to scramble or unscramble an image."
         )
-        raise SystemExit    
+        raise SystemExit
     if not args.seed:
         log.warning(
             "No seed specified: this will automatically use "
@@ -77,7 +77,7 @@ def construct_parser():
 
     info = parser.add_argument_group("Info")
     info.add_argument("-h", "--help", action="help", help="Display this screen."),
-    info.add_argument("-v", "--version", action="version", help="Show program version.", version="%(prog)s 1.1.0")
+    info.add_argument("-v", "--version", action="version", help="Show program version.", version="%(prog)s 1.1.2")
 
     return parser
 

@@ -103,8 +103,11 @@ class Canvas:
         os.makedirs(os.path.dirname(path), exist_ok=True)
         return path
 
-    def export(self, mode='scramble', path=None):
+    def export(self, mode=None, path=None):
         try:
+            if not mode:
+                mode = 'scramble'
+
             slices = self.get_slices()
 
             for g in slices:
