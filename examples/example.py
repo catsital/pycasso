@@ -1,7 +1,7 @@
 from pycasso import Canvas
 
 img = 'examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2.png'
-slice_size = 30
+slice_size = (30, 30)
 seed = 'Pycasso'
 pyc = Canvas(img, slice_size, seed)
 pyc.export(mode='scramble', path='en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_scramble.png')

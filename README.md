@@ -16,7 +16,7 @@ To revert the image to its original state, use the same `seed` and `slice_size` 
 
 ```python
 img = 'examples/en_Pepper-and-Carrot_by-David-Revoy_E05P01_p2_pycasso.png'
-slice_size = 30
+slice_size = (30, 30)
 seed = 'Pycasso'
 ```
 
@@ -49,32 +49,36 @@ $ pip install image-scramble
 
 ## Usage
 
+### Using the command-line utility
+
 After installing, you can get started by using the command-line utility to scramble or unscramble an image by:
 
 ```bash
 $ pycasso image_input.png scramble
 ```
-This will produce a scrambled image with seed based on your current system time. Hence, the output will be completely unpredictable and irreversible. Use the options `-n` for `slice_size` and `-s` for `seed` to fine-tune your desired output, like so:
+This will produce a scrambled image with seed based on your current system time. Hence, the output will be completely unpredictable and irreversible. Use the options `-n` for `slice_width` and `slice_height` and `-s` for `seed` to fine-tune your desired output, like so:
 
 ```bash
-$ pycasso image_input.png scramble -n 50 -s seed -o image_output.png
+$ pycasso image_input.png scramble -n 50 30 -s seed -o image_output.png
 ```
 
-To use this in a script, initialize a `Canvas` and use scramble on `export` by:
+### Using in a script
+
+Initialize a `Canvas` and use scramble on `export` by:
 
 ```python
 from pycasso import Canvas
 img = 'image_input.png'
-slice_size = 50
+slice_size = (50, 30)
 seed = 'seed'
 pycasso = Canvas(img, slice_size, seed)
-pycasso.export(mode='scramble', path='image_output.png')
+pycasso.export(mode='scramble', path='image_output', format='png')
 ```
 
 This can be also achieved in a one-liner:
 
 ```python
-Canvas('image_input.png', 50, 'seed').export('scramble', 'image_output.png')
+Canvas('image_input.png', (50, 30), 'seed').export('scramble', 'image_output', 'png')
 ```
 
 ## Params
@@ -83,13 +87,16 @@ Canvas('image_input.png', 50, 'seed').export('scramble', 'image_output.png')
 * Path to image source
 
 **slice_size**
-* Size of each slice
+* Size (width and height) of each slice
 
 **seed**
 * Seed to shuffle in same sequence
 
 **output**
-* Output file name and format
+* Output file name
+
+**format**
+* Image format
 
 ## Modes
 

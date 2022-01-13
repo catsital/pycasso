@@ -7,7 +7,7 @@ from pycasso import Canvas
 TEST_IMAGE = os.path.join(os.path.dirname(__file__), "data/test_image.jpg")
 TEST_INPUT = os.path.join(os.path.dirname(__file__), "data")
 TEST_OUTPUT = os.path.join(os.path.dirname(__file__), "output")
-TEST_SLICE_SIZE = 50
+TEST_SLICE_SIZE = (50, 50)
 TEST_SEED = "Pycasso"
 
 class TestExport(unittest.TestCase):
