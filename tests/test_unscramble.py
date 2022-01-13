@@ -26,7 +26,8 @@ class TestExport(unittest.TestCase):
     def test_export_scramble(self):
         self.canvas.export(
             "scramble",
-            f"{TEST_OUTPUT}/test_scramble.png"
+            f"{TEST_OUTPUT}/test_scramble",
+            "png"
         )
         self.assertTrue(
             os.path.exists(f"{TEST_OUTPUT}/test_scramble.png")
@@ -35,20 +36,21 @@ class TestExport(unittest.TestCase):
     def test_export_unscramble(self):
         self.canvas.export(
             "unscramble",
-            f"{TEST_OUTPUT}/test_unscramble.png"
+            f"{TEST_OUTPUT}/test_unscramble",
+            "png"
         )
         self.assertTrue(
             os.path.exists(f"{TEST_OUTPUT}/test_unscramble.png")
         )
 
     def test_export_jpeg(self):
-        self.canvas.export(path = f"{TEST_OUTPUT}/test.jpg")
+        self.canvas.export(path = f"{TEST_OUTPUT}/test", format = "jpeg")
         self.assertTrue(
-            os.path.exists(f"{TEST_OUTPUT}/test.jpg")
+            os.path.exists(f"{TEST_OUTPUT}/test.jpeg")
         )
 
     def test_export_bmp(self):
-        self.canvas.export(path = f"{TEST_OUTPUT}/test.bmp")
+        self.canvas.export(path = f"{TEST_OUTPUT}/test", format = "bmp")
         self.assertTrue(
             os.path.exists(f"{TEST_OUTPUT}/test.bmp")
         )

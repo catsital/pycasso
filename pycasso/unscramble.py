@@ -102,12 +102,8 @@ class Canvas:
         return pattern.sub("", str(filename))
 
     def set_directory(self, path):
-        filename = f"pycasso-{self.img_filename}"
         if not os.path.isabs(path):
             path = os.path.join(os.getcwd(), self.set_stdname(path))
-
-        if path.endswith('/'):
-            path = os.path.join(path, filename)
 
         os.makedirs(os.path.dirname(path), exist_ok=True)
         return path
@@ -167,9 +163,15 @@ class Canvas:
             self.canvas.save(img_bytes, format)
 
             if path:
+                if path.endswith('/'):
+                    filename = f"pycasso-{self.img_filename}"
+                    path = os.path.join(path, filename)
+
                 output = f"{path}.{format}"
+
                 with open(
-                    self.set_directory(output) if not os.path.exists(output) else output, 'wb'
+                    self.set_directory(output)
+                    if not os.path.exists(output) else output, 'wb'
                 ) as file:
                     file.write(img_bytes.getvalue())
 

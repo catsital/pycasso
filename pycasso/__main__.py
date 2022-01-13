@@ -11,12 +11,6 @@ def main():
     try:
         parser = construct_parser()
         args = parser.parse_args()
-        if not args.mode:
-            log.error(
-                "No mode specified: you need to specify the "
-                "mode to scramble or unscramble an image."
-            )
-            raise SystemExit
         if not args.seed:
             log.warning(
                 "No seed specified: this will automatically use "
@@ -27,8 +21,8 @@ def main():
                 "No file name found: appending base file name to "
                 "specified directory."
             )
-        if args.num:
-            width, height = args.num
+        if args.n:
+            width, height = args.n
 
         img = Canvas(
             args.input,
@@ -47,7 +41,7 @@ def main():
 def construct_parser():
     parser = argparse.ArgumentParser(
         prog="pycasso",
-        description="Split image into tiles and scramble/unscramble them with seed",
+        description="Split image into tiles and scramble/unscramble them with seed.",
         epilog="Report bugs and make feature requests at "
                "https://github.com/catsital/pycasso/issues",
         add_help=False,
@@ -61,7 +55,6 @@ def construct_parser():
     optional = parser.add_argument_group("Optional")
     optional.add_argument(
         "-n",
-        "--num",
         type=int,
         nargs=2,
         metavar=("WIDTH", "HEIGHT"),
@@ -85,7 +78,7 @@ def construct_parser():
 
     info = parser.add_argument_group("Info")
     info.add_argument("-h", "--help", action="help", help="Display this screen."),
-    info.add_argument("-v", "--version", action="version", help="Show program version.", version="%(prog)s 2.0.0")
+    info.add_argument("-v", "--version", action="version", help="Show program version.", version="%(prog)s 2.0.1")
 
     return parser
 

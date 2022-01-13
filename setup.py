@@ -27,10 +27,10 @@ extra_requirements = {
 
 setup(
     name="image-scramble",
-    version="2.0.0",
+    version="2.0.1",
     author="catsital",
     author_email="catshital@gmail.com",
-    description="Split image into tiles and scramble/unscramble it with seed.",
+    description="Split image into tiles and scramble/unscramble them with seed.",
     entry_points={"console_scripts": ["pycasso=pycasso.__main__:main"],},
     install_requires=requirements,
     long_description=long_description,

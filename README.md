@@ -54,12 +54,12 @@ $ pip install image-scramble
 After installing, you can get started by using the command-line utility to scramble or unscramble an image by:
 
 ```bash
-$ pycasso image_input.png scramble
+$ pycasso image_input.png image_output scramble
 ```
 This will produce a scrambled image with seed based on your current system time. Hence, the output will be completely unpredictable and irreversible. Use the options `-n` for `slice_width` and `slice_height` and `-s` for `seed` to fine-tune your desired output, like so:
 
 ```bash
-$ pycasso image_input.png scramble -n 50 30 -s seed -o image_output.png
+$ pycasso image_input.png image_output scramble -n 50 30 -s seed -f jpeg
 ```
 
 ### Using in a script
