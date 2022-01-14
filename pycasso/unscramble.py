@@ -94,7 +94,8 @@ class Canvas:
 
     @staticmethod
     def get_basename(filename):
-        return os.path.basename(filename)
+        name, ext = os.path.splitext(os.path.basename(filename))
+        return name
 
     @staticmethod
     def set_stdname(filename):
