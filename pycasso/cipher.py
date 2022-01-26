@@ -1,5 +1,6 @@
 from pycasso.constants import width, mask
 
+
 class ARC4:
     def __init__(self, key):
         self.key = key

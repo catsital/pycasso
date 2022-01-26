@@ -3,11 +3,17 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
+app_requirements = [
+    "Flask==2.0.2"
+]
+
 setup_requirements = [
     "wheel>=0.35.1",
 ]
 
-requirements = ["Pillow>=7.2.0"]
+requirements = [
+    "Pillow>=7.2.0",
+]
 
 test_requirements = [
     "flake8>=3.8.3",
@@ -20,6 +26,7 @@ dev_requirements = [
 ]
 
 extra_requirements = {
+    "app": app_requirements,
     "setup": setup_requirements,
     "test": test_requirements,
     "all": [*requirements, *dev_requirements,],
@@ -27,7 +34,7 @@ extra_requirements = {
 
 setup(
     name="image-scramble",
-    version="2.0.1",
+    version="2.1.1",
     author="catsital",
     author_email="catshital@gmail.com",
     description="Split image into tiles and scramble/unscramble them with seed.",

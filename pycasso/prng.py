@@ -1,7 +1,15 @@
 from time import time
 
-from pycasso.constants import width, chunks, startdenom, significance, overflow, mask
+from pycasso.constants import (
+    width,
+    chunks,
+    startdenom,
+    significance,
+    overflow,
+    mask
+)
 from pycasso.cipher import ARC4
+
 
 def seedrandom(seed):
     key = []
@@ -29,6 +37,7 @@ def seedrandom(seed):
         return o
 
     return prng
+
 
 def mixkey(seed, key):
     if not seed:

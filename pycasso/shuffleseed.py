@@ -2,11 +2,14 @@ import math
 
 from pycasso.prng import seedrandom
 
+
 def islist(this):
     return type(this) is list
 
+
 def seedrand(func, min, max):
     return math.floor(func() * (max - min + 1)) + min
+
 
 def shuffle(list, seed=None):
     if not islist(list):
@@ -27,6 +30,7 @@ def shuffle(list, seed=None):
         resp.append(list[g])
 
     return resp
+
 
 def unshuffle(list, seed=None):
     if not islist(list):
@@ -49,8 +53,9 @@ def unshuffle(list, seed=None):
 
     return resp
 
+
 def splice(target, start, delete_count=None, *items):
-    if delete_count == None:
+    if delete_count is None:
         delete_count = len(target) - start
 
     total = start + delete_count

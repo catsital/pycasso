@@ -3,11 +3,11 @@
 import io
 import os
 import re
-import sys
 import math
 from PIL import Image
 
 from pycasso.shuffleseed import shuffle, unshuffle
+
 
 class Canvas:
     def __init__(self, img, slice_size, seed=None):
@@ -17,11 +17,14 @@ class Canvas:
         self.canvas = Image.new(
             mode="RGBA",
             size=(self.img_width, self.img_height),
-            color=(255,255,255)
+            color=(255, 255, 255)
         )
 
-        if slice_size == 0:
-            raise ValueError("Invalid slice size specified: input must be greater than or equal to one.")
+        if not slice_size:
+            raise ValueError(
+                "Invalid slice size specified: input must be "
+                "greater than or equal to one."
+            )
 
     @property
     def img_width(self):
@@ -37,12 +40,16 @@ class Canvas:
 
     @property
     def total_parts(self):
-        return math.ceil(self.img_width / self.slice_width) * math.ceil(self.img_height / self.slice_height)
+        return math.ceil(
+            self.img_width / self.slice_width
+        ) * math.ceil(
+            self.img_height / self.slice_height
+        )
 
     def get_slices(self):
         slices = {}
         vertical_slices = math.ceil(self.img_width / self.slice_width)
-        horizontal_slices = self.img_height / self.slice_height
+
         for i in range(0, self.total_parts):
             slice = {}
             row = int(i / vertical_slices)
@@ -51,27 +58,33 @@ class Canvas:
             slice['y'] = row * self.slice_height
             slice['width'] = (
                 self.slice_width - (
-                    0 if slice['x'] + int(self.slice_width) <= self.img_width else (
-                        slice['x'] + int(self.slice_width)
+                    0 if (
+                        slice['x'] + self.slice_width <= self.img_width
+                    ) else (
+                        slice['x'] + self.slice_width
                     ) - self.img_width
                 )
             )
             slice['height'] = (
                 self.slice_height - (
-                    0 if slice['y'] + int(self.slice_height) <= self.img_height else (
-                        slice['y'] + int(self.slice_height)
+                    0 if (
+                        slice['y'] + self.slice_height <= self.img_height
+                    ) else (
+                        slice['y'] + self.slice_height
                     ) - self.img_height
                 )
             )
-            if '{0}-{1}'.format(slice['width'], slice['height']) not in slices.keys():
-                slices['{0}-{1}'.format(slice['width'], slice['height'])] = []
-            slices['{0}-{1}'.format(slice['width'], slice['height'])].append(slice)
+
+            if f"{slice['width']}-{slice['height']}" not in slices.keys():
+                slices[f"{slice['width']}-{slice['height']}"] = []
+            slices[f"{slice['width']}-{slice['height']}"].append(slice)
 
         return slices
 
     def get_cols_in_group(self, slices):
         if len(slices) == 1:
             return 1
+
         t = 'init'
         for i in range(0, len(slices)):
             if t == 'init':
@@ -79,6 +92,7 @@ class Canvas:
             if t != slices[i]['y']:
                 return i
                 break
+
         return i if (self.img_height % self.slice_height) == 0 else i + 1
 
     def get_group(self, slices):
