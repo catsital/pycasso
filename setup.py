@@ -3,21 +3,19 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-app_requirements = [
-    "Flask==2.0.2"
-]
-
 setup_requirements = [
     "wheel>=0.35.1",
 ]
 
 requirements = [
     "Pillow>=7.2.0",
+    "Flask==2.0.2",
 ]
 
 test_requirements = [
     "flake8>=3.8.3",
     "pytest>=5.4.3",
+    "blinker==1.4",
 ]
 
 dev_requirements = [
@@ -26,7 +24,6 @@ dev_requirements = [
 ]
 
 extra_requirements = {
-    "app": app_requirements,
     "setup": setup_requirements,
     "test": test_requirements,
     "all": [*requirements, *dev_requirements,],

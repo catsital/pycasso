@@ -5,10 +5,12 @@ name = "pypi"
 
 [packages]
 pillow = "*"
+flask = "*"
 
 [dev-packages]
 pytest = "*"
 flake8 = "*"
+blinker = "*"
 
 [requires]
 python_version = "3.8"

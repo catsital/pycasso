@@ -1,0 +1,110 @@
+{% block content %}
+<html>
+  <head>
+    <title>image-scramble</title>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='index.css') }}">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="main-panel">
+        <div id="header-panel">
+          <h1>image-scramble</h1>
+          <div class="description">
+            An image obfuscation tool that splits an image into tiles and scrambles or unscrambles them with seed.
+            Check it out on <a href="https://github.com/catsital/pycasso">GitHub</a>!
+          </div>
+        </div>
+        <div class="option-panel">
+          <form method="post" action="{{ url_for('api') }}" enctype="multipart/form-data">
+            <div class="option-row">
+              <div class="option-left">
+                <label class="tag" for="img">Image:</label>
+              </div>
+              <div class="option-right">
+                <input class="button" type="file" id="img_data" name="img_data">
+              </div>
+            </div>
+            <div class="option-row">
+              <div class="option-left">
+                <label class="tag" for="slice_width">Slice size:</label>
+              </div>
+              <div class="option-right">
+                <input type="text" id="img_slice_width" placeholder="Width" name="img_slice_width">
+                <input type="text" id="img_slice_height" placeholder="Height" name="img_slice_height">
+              </div>
+            </div>
+            <div class="option-row">
+              <div class="option-left">
+                <label class="tag" for="seed">Seed:</label>
+              </div>
+              <div class="option-right">
+                <input type="text" id="img_seed" name="img_seed">
+              </div>
+            </div>
+            <div class="option-row">
+              <div class="option-left">
+                <label class="tag" for="mode">Mode:</label>
+              </div>
+              <div class="option-right">
+                <select name="img_mode" id="img_mode">
+                  <option value="scramble">Scramble</option>
+                  <option value="unscramble">Unscramble</option>
+                </select>
+              </div>
+            </div>
+            <div class="option-row">
+              <div class="option-left">
+                <label class="tag" for="format">Format:</label>
+              </div>
+              <div class="option-right">
+                <select name="img_format" id="img_format">
+                  <option value="png">PNG</option>
+                  <option value="jpeg">GIF</option>
+                  <option value="jpeg">JPEG</option>
+                  <option value="bmp">BMP</option>
+                </select>
+              </div>
+            </div>
+            <div class="option-row">
+              <div class="option-left">
+                <label class="tag" for="compare">Show side-by-side:</label>
+              </div>
+              <div class="option-right">
+                <input type="checkbox" id="img_compare" name="img_compare" value="true">
+              </div>
+            </div>
+            <div class="option-row">
+              <div id="button-panel">
+                <input id="submit" class="button" type="submit" value="Convert" disabled>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="loading" class="loading" onReady="hideSpinner()"></div>
+    {% if input_img %}
+    <div id="wrapper">
+      <div id="output-panel" class="original fade-in">
+        <p class="image">
+          <a href="data:image/{{ input_ext }};base64, {{ input_img }}">
+            <img src="data:image/{{ input_ext }};base64, {{ input_img }}" width="70%">
+          </a>
+        </p>
+      </div>
+    {% endif %}
+    {% if output_img %}
+      <div id="output-panel" class="scrambled fade-in">
+        <p class="image">
+          <a href="data:image/{{ output_ext }};base64, {{ output_img }}">
+            <img src="data:image/{{ output_ext }};base64, {{ output_img }}" width="70%">
+          </a>
+        </p>
+      </div>
+    </div>
+    {% endif %}
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+  </body>
+</html>
+{% endblock %}

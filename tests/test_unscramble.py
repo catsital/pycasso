@@ -1,66 +1,76 @@
 import unittest
+import pytest
 import json
 import os
 
 from pycasso import Canvas
 
-TEST_IMAGE = os.path.join(os.path.dirname(__file__), "data/test_image.jpg")
-TEST_INPUT = os.path.join(os.path.dirname(__file__), "data")
-TEST_OUTPUT = os.path.join(os.path.dirname(__file__), "output")
-TEST_SLICE_SIZE = (50, 50)
-TEST_SEED = "Pycasso"
+test_input = os.path.join(os.path.dirname(__file__), "data")
+test_output = os.path.join(os.path.dirname(__file__), "output")
 
+
+@pytest.mark.usefixtures("fixtures_class")
 class TestExport(unittest.TestCase):
     def setUp(self):
         self.canvas = Canvas(
-            TEST_IMAGE,
-            TEST_SLICE_SIZE,
-            TEST_SEED
+            self.params.img_path,
+            self.params.slice_size,
+            self.params.seed
         )
 
     def tearDown(self):
-        for file in os.listdir(TEST_OUTPUT):
-            os.remove(os.path.join(TEST_OUTPUT, file))
-        os.rmdir(TEST_OUTPUT)
+        for file in os.listdir(test_output):
+            os.remove(os.path.join(test_output, file))
+        os.rmdir(test_output)
 
     def test_export_scramble(self):
         self.canvas.export(
             "scramble",
-            f"{TEST_OUTPUT}/test_scramble",
+            "{}/test_scramble".format(test_output),
             "png"
         )
         self.assertTrue(
-            os.path.exists(f"{TEST_OUTPUT}/test_scramble.png")
+            os.path.exists("{}/test_scramble.png".format(test_output))
         )
 
     def test_export_unscramble(self):
         self.canvas.export(
             "unscramble",
-            f"{TEST_OUTPUT}/test_unscramble",
+            "{}/test_unscramble".format(test_output),
             "png"
         )
         self.assertTrue(
-            os.path.exists(f"{TEST_OUTPUT}/test_unscramble.png")
+            os.path.exists("{}/test_unscramble.png".format(test_output))
         )
 
     def test_export_jpeg(self):
-        self.canvas.export(path = f"{TEST_OUTPUT}/test", format = "jpeg")
+        self.canvas.export(
+            "scramble",
+            "{}/test".format(test_output),
+            "jpeg"
+        )
         self.assertTrue(
-            os.path.exists(f"{TEST_OUTPUT}/test.jpeg")
+            os.path.exists("{}/test.jpeg".format(test_output))
         )
 
     def test_export_bmp(self):
-        self.canvas.export(path = f"{TEST_OUTPUT}/test", format = "bmp")
+        self.canvas.export(
+            "scramble",
+            "{}/test".format(test_output),
+            "bmp"
+        )
         self.assertTrue(
-            os.path.exists(f"{TEST_OUTPUT}/test.bmp")
+            os.path.exists("{}/test.bmp".format(test_output))
         )
 
+
+@pytest.mark.usefixtures("fixtures_class")
 class TestGroup(unittest.TestCase):
     def setUp(self):
         self.canvas = Canvas(
-            TEST_IMAGE,
-            TEST_SLICE_SIZE,
-            TEST_SEED
+            self.params.img_path,
+            self.params.slice_size,
+            self.params.seed
         )
         self.slices = self.canvas.get_slices()
 
@@ -68,7 +78,7 @@ class TestGroup(unittest.TestCase):
         self.canvas.close()
 
     def test_get_slices(self):
-        with open(f"{TEST_INPUT}/test_get_slices.json", 'r') as file:
+        with open("{}/test_get_slices.json".format(test_input), 'r') as file:
             slice = file.read()
             slice = json.loads(slice)
         self.assertEqual(self.slices, slice)
@@ -122,6 +132,7 @@ class TestGroup(unittest.TestCase):
         cols = [self.canvas.get_cols_in_group(self.slices[i]) for i in self.slices]
 
         self.assertEqual(cols, [10, 1, 10, 1])
+
 
 if __name__ == '__main__':
     unittest.main()
