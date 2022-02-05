@@ -1,8 +1,9 @@
 # Pycasso
 
 [![Downloads](https://pepy.tech/badge/image-scramble)](https://pepy.tech/project/image-scramble)
-[![Latest Github release](https://img.shields.io/github/tag/catsital/pycasso.svg)](https://github.com/catsital/pycasso/releases/latest)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/catsital/pycasso/blob/main/LICENSE)
+[![Latest PyPI release](https://badgen.net/pypi/v/image-scramble)](https://pypi.org/project/image-scramble/)
+[![Latest Github release](https://badgen.net/github/release/catsital/pycasso)](https://github.com/catsital/pycasso/releases/latest)
+[![License](https://badgen.net/github/license/catsital/pycasso)](https://github.com/catsital/pycasso/blob/main/LICENSE)
 [![Build](https://github.com/catsital/pycasso/actions/workflows/python-package.yml/badge.svg)](https://github.com/catsital/pycasso/actions/workflows/python-package.yml)
 [![Deploy](https://github.com/catsital/pycasso/actions/workflows/deploy-main.yml/badge.svg)](https://github.com/catsital/pycasso/actions/workflows/deploy-main.yml)
 
@@ -52,26 +53,28 @@ $ pip install image-scramble
 
 * Build from local using:
 
-```
-docker build -t "image-scramble" .
-docker --name pycasso -p 5000:5000 -d image-scramble
+```bash
+$ docker build -t "image-scramble" .
+$ docker --name pycasso -p 5000:5000 -d image-scramble
 ```
 
-* Get image from hub:
+* Get image from [Docker Hub]('https://hub.docker.com/r/catsital/image-scramble'):
 
-```
-docker pull image-scramble
+```bash
+$ docker pull catsital/image-scramble
 ```
 
 ### Command-line utility
-
-You can get started by using the command-line utility to scramble or unscramble an image by:
 
 ```bash
 $ pycasso image_input.png image_output scramble
 ```
 
-Use `--help` for more options.
+This will produce a scrambled image with seed based on your current system time. Hence, the output will be completely unpredictable and irreversible. Use the options `-n` for `slice_size`, `-f` for `format`, and `-s` for `seed`, like so:
+
+```bash
+$ pycasso image_input.png image_output scramble -n 50 50 -s seed -f jpeg
+```
 
 ### Script
 

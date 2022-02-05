@@ -129,7 +129,8 @@ class TestGroup(unittest.TestCase):
         )
 
     def test_get_cols_in_group(self):
-        cols = [self.canvas.get_cols_in_group(self.slices[i]) for i in self.slices]
+        cols = [self.canvas.get_cols_in_group(self.slices[i])
+                for i in self.slices]
 
         self.assertEqual(cols, [10, 1, 10, 1])
 

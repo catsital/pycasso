@@ -83,27 +83,25 @@
         </form>
       </div>
     </div>
-    <div id="loading" class="loading" onReady="hideSpinner()"></div>
-    {% if input_img %}
-    <div id="wrapper">
-      <div id="output-panel" class="original fade-in">
+    {% if input_img and output_img %}
+    <div id="wrapper" class="output">
+      <div id="output-panel" class="original">
         <p class="image">
           <a href="data:image/{{ input_ext }};base64, {{ input_img }}">
-            <img src="data:image/{{ input_ext }};base64, {{ input_img }}" width="70%">
+            <img class="fade-in" alt="Original Image" src="data:image/{{ input_ext }};base64, {{ input_img }}">
           </a>
         </p>
       </div>
-    {% endif %}
-    {% if output_img %}
-      <div id="output-panel" class="scrambled fade-in">
+      <div id="output-panel" class="scrambled">
         <p class="image">
           <a href="data:image/{{ output_ext }};base64, {{ output_img }}">
-            <img src="data:image/{{ output_ext }};base64, {{ output_img }}" width="70%">
+            <img class="fade-in" alt="Converted Image" src="data:image/{{ output_ext }};base64, {{ output_img }}">
           </a>
         </p>
       </div>
     </div>
     {% endif %}
+    <div id="loading" class="loading" onReady="hideSpinner()"></div>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
   </body>
 </html>

@@ -30,13 +30,18 @@ body {
 
 #output-panel {
   margin: auto;
-  display: inline-block;
+  display: block;
   width: 50%;
   padding: 30px;
 }
 
-.original {
-  border-right: 10px solid #444;
+img {
+  width: 100%;
+  display: block;
+}
+
+.output {
+  background: linear-gradient(#444, #444) no-repeat center/10px 100%;
 }
 
 .image {

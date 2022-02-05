@@ -6,9 +6,6 @@
 *.pyc
 *.swp
 
-.tox
-.coverage
-
 build/
 dist/
 __pycache__/

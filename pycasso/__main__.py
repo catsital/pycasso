@@ -69,15 +69,13 @@ def construct_parser():
         help="Size (width, height) of tiles to slice an image."
     )
     optional.add_argument(
-        "-s",
-        "--seed",
+        "-s", "--seed",
         type=str,
         default=None,
         help="Seed to use to scramble or unscramble an image."
     )
     optional.add_argument(
-        "-f",
-        "--format",
+        "-f", "--format",
         type=str,
         default="png",
         help="Image format."
@@ -85,17 +83,15 @@ def construct_parser():
 
     info = parser.add_argument_group("Info")
     info.add_argument(
-        "-h",
-        "--help",
+        "-h", "--help",
         action="help",
         help="Display this screen."
     ),
     info.add_argument(
-        "-v",
-        "--version",
+        "-v", "--version",
         action="version",
         help="Show program version.",
-        version="%(prog)s 2.1.1"
+        version="%(prog)s 2.1.2"
     )
 
     return parser

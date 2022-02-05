@@ -19,6 +19,6 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           usedocker: true
           healthcheck: "https://image-scramble.herokuapp.com/ok"
-          checkstring: "Computer"
+          checkstring: "computer"
           delay: 5
           rollbackonhealthcheckfailed: true

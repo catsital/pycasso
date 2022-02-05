@@ -16,7 +16,7 @@ def create_app():
 
     @app.route('/ok', methods=['GET'])
     def ok():
-        return 'Computer'
+        return 'computer'
 
     @app.route('/api', methods=['GET', 'POST'])
     def api():

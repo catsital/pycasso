@@ -31,7 +31,7 @@ extra_requirements = {
 
 setup(
     name="image-scramble",
-    version="2.1.1",
+    version="2.1.2",
     author="catsital",
     author_email="catshital@gmail.com",
     description="Split image into tiles and scramble/unscramble them with seed.",
